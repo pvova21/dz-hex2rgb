@@ -2,7 +2,7 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/mbgyi1cu86kxqws4?svg=true)](https://ci.appveyor.com/project/pvova21/dz-hex2rgb)
 
-## ## [GitHub Pages](https://pvova21.github.io/dz-hex2rgb/)
+## [GitHub Pages](https://pvova21.github.io/dz-hex2rgb/)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
