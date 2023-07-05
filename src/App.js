@@ -1,9 +1,16 @@
 import './App.css';
-import PageColor from './components/PageColor';
+import HexConverter from './components/Converter';
+import { useState } from 'react';
 
 function App() {
+  const [ bgcolor, setBgcolor ] = useState('#ffffff')
+  const updateBackgroundColor = (color) => setBgcolor(color);
   return (
-    <PageColor />
+    <div
+      className="App"
+      style={{backgroundColor: `${bgcolor}`}}>
+      <HexConverter applyColor={ updateBackgroundColor } />
+    </div>
   );
 }
 

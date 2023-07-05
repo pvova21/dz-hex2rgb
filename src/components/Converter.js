@@ -1,44 +1,81 @@
-const hexCharacters = 'a-f\\d';
-const match3or4Hex = `#?[${hexCharacters}]{3}[${hexCharacters}]?`;
-const match6or8Hex = `#?[${hexCharacters}]{6}([${hexCharacters}]{2})?`;
-const nonHexChars = new RegExp(`[^#${hexCharacters}]`, 'gi');
-const validHexSize = new RegExp(`^${match3or4Hex}$|^${match6or8Hex}$`, 'i');
+import { useState } from "react";
 
-export default function hexRgb(hex) {
-  const result = {
-    hex: hex,
-  };
+function Converter(props) {
+  const { applyColor } = props;
+  const [ state, setState ] = useState({
+    color: '#ffffff',
+    message: `rgb(255, 255, 255)`,
+  });
 
-	if (typeof hex !== 'string' || nonHexChars.test(hex) || !validHexSize.test(hex)) {
-    result.rgb = 'Ошибка!';
-    result.background = 'rgb(255, 0, 0)'
-		return result;
-	}
+  const inputPlaceholder = "Введите код HEX";
 
-	hex = hex.replace(/^#/, '');
-	let alphaFromHex = 1;
+  const submitHandler = event => {
+    event.preventDefault();
+    validateValue(event.target.hexInput.value);
+  }
 
-	if (hex.length === 8) {
-		alphaFromHex = Number.parseInt(hex.slice(6, 8), 16) / 255;
-		hex = hex.slice(0, 6);
-	}
+  const focusHandler = (event) => {
+    event.target.placeholder = '';
+  }
 
-	if (hex.length === 4) {
-		alphaFromHex = Number.parseInt(hex.slice(3, 4).repeat(2), 16) / 255;
-		hex = hex.slice(0, 3);
-	}
+  const blurHandler = (event) => {
+    if (event.target.value === '') {
+      event.target.placeholder = inputPlaceholder;
+    }
+  }
 
-	if (hex.length === 3) {
-		hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
-	}
+  const changeHandler = event => {
+    if (event.target.value.length === 7) {
+      validateValue(event.target.value);
+    }
+    if (event.target.value.length > 7) {
+      event.target.value = event.target.value.substr(0, 7);
+    }
+  }
 
-	const number = Number.parseInt(hex, 16);
-	const red = number >> 16;
-	const green = (number >> 8) & 255;
-	const blue = number & 255;
+  const error = () => {
+    setState(prevState => ({
+      ...prevState,
+      color: '#EA4B35',
+      message: 'Ошибка!',
+    }));
+  }
 
-  result.rgb = `rgb(${red} ${green} ${blue})`;
-  result.background = `rgb(${red} ${green} ${blue})`;
+  const hex2rgb = hex => {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? 
+      `rgb(${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)})` : null;
+  }
+
+  const validateValue = string => {
+    const regexp = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+    if (string.match(regexp)) {
+      setState((prevState) => ({
+        ...prevState,
+        color: string,
+        message: hex2rgb(string),
+      }));
+    } else {
+      error();
+      string = '#EA4B35';
+    }
+    applyColor(string);
+  }
   
-	return result;
+  return (
+    
+    <form className='ConverterForm' onSubmit={submitHandler}>
+      <input
+        id="hexInput"
+        name="hexInput"
+        className="hexInput"
+        placeholder={inputPlaceholder}
+        onChange={changeHandler}
+        onFocus={focusHandler}
+        onBlur={blurHandler}></input>
+      <span className="currentRGB">{ state.message }</span>
+    </form>
+  );
 }
+
+export default Converter;
