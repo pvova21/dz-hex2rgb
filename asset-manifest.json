@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/dz-hex2rgb/static/css/main.4fb8e6df.css",
+    "main.js": "/dz-hex2rgb/static/js/main.eaa5950e.js",
+    "static/js/787.48b511fb.chunk.js": "/dz-hex2rgb/static/js/787.48b511fb.chunk.js",
+    "index.html": "/dz-hex2rgb/index.html",
+    "main.4fb8e6df.css.map": "/dz-hex2rgb/static/css/main.4fb8e6df.css.map",
+    "main.eaa5950e.js.map": "/dz-hex2rgb/static/js/main.eaa5950e.js.map",
+    "787.48b511fb.chunk.js.map": "/dz-hex2rgb/static/js/787.48b511fb.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4fb8e6df.css",
+    "static/js/main.eaa5950e.js"
+  ]
+}
